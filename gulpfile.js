@@ -64,6 +64,19 @@ gulp.task('test', function(cb) {
     });
 });
 
+gulp.task('test-ci', function(cb) {
+  var mochaErr;
+  return gulp.src('./test/**/*-spec.js')
+    .pipe(mocha())
+    .once('error', function(err) {
+      console.log(err.toString());
+      process.exit(1);
+      this.emit('end')
+    }).once('end', function() {
+      process.exit(0);
+    });
+});
+
 gulp.task('test__memorycache', function(cb) {
   var mochaErr;
   return gulp.src('./test/**/MemoryCache-spec.js')
