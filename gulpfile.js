@@ -16,7 +16,7 @@ var mocha = require('gulp-mocha');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
-require('babel-register')({
+require('babel-core/register')({
   extensions:['.js'],
   ignore: false,
 });

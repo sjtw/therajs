@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/sjt88/therajs.svg?branch=master)](https://travis-ci.org/sjt88/therajs)
 # Thera.js
 #### An ES6 Promise driven EVE Online API client
 

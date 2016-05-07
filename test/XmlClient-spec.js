@@ -87,5 +87,9 @@ describe('XmlApiClient', function () {
         })
         .catch(handlePromiseError);
     });
+
+    after(function() {
+      api.cache.clearTimers();
+    });
   });
 });
