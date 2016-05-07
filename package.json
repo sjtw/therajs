@@ -1,0 +1,53 @@
+{
+  "name": "thera",
+  "version": "1.0.0",
+  "description": "An ES6 Promise driven Eve Online API client.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "eve",
+    "online",
+    "api",
+    "rest",
+    "xml",
+    "thera",
+    "thera.js",
+    "promise",
+    "eveonline",
+    "EVE",
+    "ccp",
+    "eve-online",
+    "cache",
+    "caching",
+    "es6"
+  ],
+  "author": "Simon Tweed",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.6.0",
+    "chai": "^3.5.0",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.10.4",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nsp": "^2.4.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "isparta": "^4.0.0",
+    "run-sequence": "^1.1.5",
+    "source-map-support": "^0.4.0"
+  },
+  "dependencies": {
+    "lodash": "^4.11.2",
+    "moment": "^2.13.0",
+    "request": "^2.72.0",
+    "xml2js": "^0.4.16"
+  }
+}
