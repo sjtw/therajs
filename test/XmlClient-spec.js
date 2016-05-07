@@ -2,8 +2,11 @@ import XmlApiClient from '../src/clients/XmlClient.js';
 import MemoryCache from '../src/cache/MemoryCache.js';
 import {expect} from 'chai';
 
-var legitKeyID = 'yourkeyhere';
-var legitVCode = 'yourvcodehere';
+var legitKeyID = process.env.EVEAPI_KEYID;
+var legitVCode = process.env.EVEAPI_VCODE;
+
+console.log('using key ID beginning: ' + legitKeyID.substr(0,4));
+console.log('using vcode beginning: ' + legitVCode.substr(0,8));
 
 function handlePromiseError(error) {
   console.error(error);
