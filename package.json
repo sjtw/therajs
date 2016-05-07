@@ -2,7 +2,7 @@
   "name": "thera",
   "version": "1.0.1",
   "description": "An ES6 Promise driven Eve Online API client.",
-  "main": "dist/index.js",
+  "main": "dist/thera.js",
   "scripts": {
     "test": "gulp test"
   },
