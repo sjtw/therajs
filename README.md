@@ -16,7 +16,7 @@ npm install thera
 ___
 
 ### API Clients
-Currently thera only contains an XML API XmlClient class - thera.XmlClient.  
+Currently thera only contains an XML API client class - thera.XmlClient.  
 
 In the future it will be extended to include a CREST API client component & any other EVE related API clients I might feel like creating. 
 
@@ -55,7 +55,7 @@ xmlClient
         xmlClient.get('char/AccountBalance'),
         xmlClient.get('char/WalletTransactions'),
         xmlClient.get('char/WalletJournal')
-      ]).catch(err => {console.log(err);});
+      ]);
   })
   .then((values) => {
     console.log(values);
@@ -96,8 +96,9 @@ var xmlClient = new thera.XmlClient({
 
 thera.XmlApi instances expose the following methods, all of which are chainable.
 
-##### .get(resourcePath, [queryParams, requestOptions, force]) (Promise)
-Pretty self explanatory, it fetches the chosen resource from the API. The response is parsed into a direct JSON representation of the XML document and available within a subsequently chained then() callback.
+
+##### xmlClient.get(resourcePath, [queryParams, requestOptions, force]) (Promise)
+.get() fetches the chosen resource from the API. The response is parsed into a direct JSON representation of the XML document and available within a subsequently chained then() callback.
 
 E.g: Fetching the account/Character resource.
 
@@ -117,7 +118,7 @@ Arguments
 ```
 
 
-##### .setCharacterID(characterID)
+##### xmlClient.setCharacterID(characterID)
 Sets the characterID to be used for all subsequent requests to the API.
 
 E.g: setting the character ID to the first character associated with the account & making a request for that characters account balance resource.
@@ -133,38 +134,48 @@ xmlClient.get('account/Characters')
   });
 ```
 
-##### .setKeyID(keyID)
+
+##### xmlClient.setKeyID(keyID)
 Sets the Key ID to be used for all subsequent requests to the API.
 
-##### .setVCode(vCode)
+
+##### xmlClient.setVCode(vCode)
 Sets the Verification Code to be used for all subsequent requests to the API.
 
-##### .setConfig(config)
+
+##### xmlClient.setConfig(config)
 Sets multiple configuration options at once (see options section above).
 
 
-##### .cache
-The cache can be interacted with directly and exposes the following methods:
+##### xmlClient.cache
+The cache can be interacted with directly and exposes the methods below.  
+If passing your own cache into a thera.XmlClient instance it must implement these methods to be compatible:
 
-##### .cache.put(key, value, timeout)
+
+##### xmlClient.cache.put(key, value, timeout)
 Adds a document `value` into the store at `key`.  
 If `timeout` is provided, the document will be destroyed after this time.  
 
 Thera uses the endpoint Paths as `key`. for example: 'char/Blueprints'
 
-##### .cache.get(key)
+
+##### xmlClient.cache.get(key)
 Retrieves the document stored against `key` from the cache
 
-##### .cache.clearTimer(key)
+
+##### xmlClient.cache.clearTimer(key)
 Clears the timeout for `key`. i.e. it will persist indefinitely after doing so.
 
-##### .cache.clearTimers()
+
+##### xmlClient.cache.clearTimers()
 Clears the timeout for all `key`s.
 
-##### .cache.clear(key)
+
+##### xmlClient.cache.clear(key)
 Clears the entire cache.
 
-##### .cache.exists(key)
+
+##### xmlClient.cache.exists(key)
 Returns true if a document exists for `key`.
 
 ___
@@ -223,7 +234,7 @@ ___
 
 ### License
 
-The MIT License (MIT)
+The MIT License (MIT)  
 Copyright (c) 2016 Simon Tweed
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
