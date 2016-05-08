@@ -13,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var compass = require('gulp-compass');
 var mocha = require('gulp-mocha');
+var coveralls = require('gulp-coveralls');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -31,7 +32,7 @@ gulp.task('pre-coverage', function () {
   return gulp.src(['src/**/*.js'])
     .pipe(istanbul({
       includeUntested: true,
-    instrumenter: isparta.Instrumenter}))
+      instrumenter: isparta.Instrumenter}))
     .pipe(istanbul.hookRequire())
 })
 
@@ -64,8 +65,11 @@ gulp.task('test', function(cb) {
     });
 });
 
-gulp.task('coveralls', function() {
-  return gulp.src('coverage/lcov.info')
+var path = require('path');
+
+gulp.task('coveralls', ['coverage'], function() {
+  console.log(path.resolve('./coverage/Icov.info'));
+  return gulp.src(['./coverage/lcov.info'])
     .pipe(coveralls());
 });
 
