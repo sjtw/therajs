@@ -64,6 +64,15 @@ gulp.task('test', function(cb) {
     });
 });
 
+gulp.task('coveralls', function() {
+  return gulp.src('coverage/lcov.info')
+    .pipe(coveralls());
+});
+
+gulp.task('ci', function() {
+  runSequence('coverage', 'coveralls')
+});
+
 gulp.task('test-ci', function(cb) {
   var mochaErr;
   return gulp.src('./test/**/*-spec.js')
