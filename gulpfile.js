@@ -13,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var compass = require('gulp-compass');
 var mocha = require('gulp-mocha');
+var coveralls = require('gulp-coveralls');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -31,7 +32,7 @@ gulp.task('pre-coverage', function () {
   return gulp.src(['src/**/*.js'])
     .pipe(istanbul({
       includeUntested: true,
-    instrumenter: isparta.Instrumenter}))
+      instrumenter: isparta.Instrumenter}))
     .pipe(istanbul.hookRequire())
 })
 
@@ -45,6 +46,8 @@ gulp.task('coverage', ['pre-coverage'], function (cb) {
     .on('error', function (err) {
       mochaErr = err
       console.log(JSON.stringify(err, null, 2).split('\\n').join('\n'))
+      this.emit('end');
+      process.exit(1);
     })
     .pipe(istanbul.writeReports())
     .once('end', function () {
@@ -64,17 +67,16 @@ gulp.task('test', function(cb) {
     });
 });
 
-gulp.task('test-ci', function(cb) {
-  var mochaErr;
-  return gulp.src('./test/**/*-spec.js')
-    .pipe(mocha())
-    .once('error', function(err) {
-      console.log(err.toString());
-      process.exit(1);
-      this.emit('end')
-    }).once('end', function() {
-      process.exit(0);
-    });
+var path = require('path');
+
+gulp.task('coveralls', function() {
+  console.log(path.resolve('./coverage/Icov.info'));
+  return gulp.src(['./coverage/lcov.info'])
+    .pipe(coveralls());
+});
+
+gulp.task('test-ci', function() {
+  runSequence('coverage', 'coveralls')
 });
 
 gulp.task('test__memorycache', function(cb) {
