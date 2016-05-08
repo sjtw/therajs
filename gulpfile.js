@@ -102,7 +102,8 @@ gulp.task('babel', function() {
   return gulp.src('src/**/*.js')
     .pipe(sourcemaps.init())
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2015'],
+      plugins: ['transform-runtime']
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'));

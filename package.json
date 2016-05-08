@@ -1,6 +1,6 @@
 {
   "name": "thera",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An ES6 Promise driven Eve Online API client.",
   "main": "dist/thera.js",
   "scripts": {

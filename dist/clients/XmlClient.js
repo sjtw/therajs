@@ -2,7 +2,21 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 var _request = require('request');
 
@@ -28,8 +42,6 @@ var _sourceMapSupport = require('source-map-support');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var xml2jsOptions = {
   explicitArray: false,
   explicitRoot: false,
@@ -44,7 +56,7 @@ function getMsDiff(start, end) {
 }
 
 var HTTPError = function HTTPError(statusCode, url, msg, code) {
-  _classCallCheck(this, HTTPError);
+  (0, _classCallCheck3.default)(this, HTTPError);
 
   this.errorType = 'HTTP_ERR';
   this.error = {};
@@ -56,7 +68,7 @@ var HTTPError = function HTTPError(statusCode, url, msg, code) {
 
 var ApiRequest = function () {
   function ApiRequest(url, keyID, vCode, characterID) {
-    _classCallCheck(this, ApiRequest);
+    (0, _classCallCheck3.default)(this, ApiRequest);
 
     this.requestOptions = {
       url: url
@@ -70,17 +82,17 @@ var ApiRequest = function () {
     (0, _sourceMapSupport.install)();
   }
 
-  _createClass(ApiRequest, [{
+  (0, _createClass3.default)(ApiRequest, [{
     key: 'get',
     value: function get(extraParams, extraRequestOptions) {
       var _this = this;
 
-      return new Promise(function (resolve, reject) {
+      return new _promise2.default(function (resolve, reject) {
         var requestParams = { qs: {} };
-        Object.assign(requestParams, _this.requestOptions);
-        Object.assign(requestParams.qs, _this.baseQueryParams, extraParams);
+        (0, _assign2.default)(requestParams, _this.requestOptions);
+        (0, _assign2.default)(requestParams.qs, _this.baseQueryParams, extraParams);
 
-        if (extraRequestOptions) Object.assign(requestParams, extraRequestOptions);
+        if (extraRequestOptions) (0, _assign2.default)(requestParams, extraRequestOptions);
 
         _request2.default.get(requestParams, function (err, res, body) {
           if (err) {
@@ -107,13 +119,12 @@ var ApiRequest = function () {
       });
     }
   }]);
-
   return ApiRequest;
 }();
 
 var XmlApiClient = function () {
   function XmlApiClient(options) {
-    _classCallCheck(this, XmlApiClient);
+    (0, _classCallCheck3.default)(this, XmlApiClient);
 
     if (!options) options = {};
     this.keyID = options.keyID ? options.keyID : null;
@@ -125,12 +136,12 @@ var XmlApiClient = function () {
     (0, _sourceMapSupport.install)();
   }
 
-  _createClass(XmlApiClient, [{
+  (0, _createClass3.default)(XmlApiClient, [{
     key: 'get',
     value: function get(path, extraParams, requestOptions, force) {
       var _this2 = this;
 
-      return new Promise(function (resolve, reject) {
+      return new _promise2.default(function (resolve, reject) {
 
         if (typeof extraParams === 'boolean') force = extraParams;
         if (typeof requestOptions === 'boolean') force = requestOptions;
@@ -228,7 +239,6 @@ var XmlApiClient = function () {
       return this.rootURL + '/' + path + this.endpointSuffix;
     }
   }]);
-
   return XmlApiClient;
 }();
 
