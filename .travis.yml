@@ -1,10 +1,14 @@
 language: node_js
 before_script:
   - npm install -g npm
+  - npm --version
+  - npm cache-clean
+  - npm install
   - npm install -g gulp
 script: gulp test-ci
 node_js:
   - "6.1.0"
   - "6.0.0"
+  - "5.0.0"
   - "4.4.4"
   - "iojs"
