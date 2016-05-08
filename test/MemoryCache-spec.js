@@ -1,4 +1,4 @@
-import MemoryCache from '../src/cache/MemoryCache.js';
+import MemoryCache from '../dist/cache/MemoryCache.js';
 import {expect} from 'chai';
 
 describe('MemoryCache', function () {

@@ -1,5 +1,5 @@
-import XmlApiClient from '../src/clients/XmlClient.js';
-import MemoryCache from '../src/cache/MemoryCache.js';
+import XmlApiClient from '../dist/clients/XmlClient.js';
+import MemoryCache from '../dist/cache/MemoryCache.js';
 import {expect} from 'chai';
 
 var legitKeyID = process.env.EVEAPI_KEYID;
