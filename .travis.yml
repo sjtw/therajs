@@ -2,6 +2,7 @@ language: node_js
 before_script:
   - npm install -g npm
   - npm --version
+  - rm -r node_modules
   - npm cache clean
   - npm install
   - npm install -g gulp
