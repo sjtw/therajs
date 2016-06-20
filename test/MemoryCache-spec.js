@@ -69,49 +69,83 @@ describe('MemoryCache', function () {
 
   describe('delete', function () {
     it('should delete everything which was set', function() {
-      cache.put('key1', 'val1');
-      cache.put('key2', 'val2');
-      cache.put('key3', 'val3');
-      expect(cache.get('key1')).to.equal('val1');
-      expect(cache.get('key2')).to.equal('val2');
-      expect(cache.get('key3')).to.equal('val3');
-      cache.delete();
-      expect(cache.get('key1')).to.equal(null);
-      expect(cache.get('key2')).to.equal(null);
-      expect(cache.get('key3')).to.equal(null);
+      return Promise.all([
+        cache.put('key1', 'val1'),
+        cache.put('key2', 'val2'),
+        cache.put('key3', 'val3')
+      ]).then(() => {
+        expect(cache.data.key1).to.equal('val1');
+        expect(cache.data.key2).to.equal('val2');
+        expect(cache.data.key3).to.equal('val3');
+      }).then(() => {
+        return cache.delete();
+      }).then(() => {
+        return Promise.all([
+          cache.get('key1'),
+          cache.get('key2'),
+          cache.get('key3')
+        ]);
+      }).then(values => {
+        expect(values[0]).to.be.null;
+        expect(values[1]).to.be.null;
+        expect(values[2]).to.be.null;
+      });
     });
 
     it('should delete the value of a single key', function() {
-      cache.put('key1', 'val1');
-      cache.put('key2', 'val2');
-      cache.put('key3', 'val3');
-
-      cache.delete('key1');
-
-      expect(cache.get('key1')).to.equal(null);
-      expect(cache.get('key2')).to.equal('val2');
-      expect(cache.get('key3')).to.equal('val3');
+      return Promise.all([
+        cache.put('key1', 'val1'),
+        cache.put('key2', 'val2'),
+        cache.put('key3', 'val3')
+      ]).then(() => {
+        return cache.delete('key1');
+      }).then(() => {
+        return Promise.all([
+          cache.get('key1'),
+          cache.get('key2'),
+          cache.get('key3')
+        ]);
+      }).then(values => {
+        expect(values[0]).to.equal(null);
+        expect(values[1]).to.equal('val2');
+        expect(values[2]).to.equal('val3');
+      });
     });
   });
 
   describe('deleteAfter', function () {
     it('should delete everything after the timer', function(done) {
-      var timeout = 1000;
-      cache.put('key1', 'val1');
-      cache.put('key2', 'val2');
-      cache.put('key3', 'val3');
-
-      cache.deleteAfter(null, timeout);
-      setTimeout(() => {
-        expect(cache.get('key1')).to.equal(null);
-        expect(cache.get('key2')).to.equal(null);
-        expect(cache.get('key3')).to.equal(null);
-        done();
-      }, timeout);
-
-      expect(cache.get('key1')).to.equal('val1');
-      expect(cache.get('key2')).to.equal('val2');
-      expect(cache.get('key3')).to.equal('val3');
+      Promise.all([
+        cache.put('key1', 'val1'),
+        cache.put('key2', 'val2'),
+        cache.put('key3', 'val3')
+      ]).then(values => {
+        // values should have been set
+        expect(values[0]).to.equal('val1');
+        expect(values[1]).to.equal('val2');
+        expect(values[2]).to.equal('val3');
+        cache.deleteAfter('key1', 1000);
+        cache.deleteAfter('key2', 1000);
+        cache.deleteAfter('key3', 1000);
+      }).then(values => {
+        // values should still exist
+        expect(cache.data.key1).to.equal('val1');
+        expect(cache.data.key2).to.equal('val2');
+        expect(cache.data.key3).to.equal('val3');
+        setTimeout(() => {
+          Promise.all([
+            cache.get('key1'),
+            cache.get('key2'),
+            cache.get('key3')
+          ]).then(values => {
+            // values should now be deleted
+            expect(values[0]).to.equal(null);
+            expect(values[1]).to.equal(null);
+            expect(values[2]).to.equal(null);
+            done();
+          });
+        }, 1010)
+      });
     });
   });
 });

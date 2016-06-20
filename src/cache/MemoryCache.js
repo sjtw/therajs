@@ -26,18 +26,23 @@ export default class MemoryCache {
   }
 
   delete (key) {
-    if (key) {
-      if (this.data[key]) delete this.data[key];
-      // clearTimer(key);
-    } else {
-      this.data = {};
-      this.clearTimers();
-    }
+    return new Promise((resolve, reject) => {
+      if (key) {
+        if (this.data[key]) delete this.data[key];
+        // clearTimer(key);
+      } else {
+        this.data = {};
+        this.clearTimers();
+      }
+      resolve();
+    });
   }
 
   exists (key) {
-    if (this.data[key]) return true;
-    else return false;
+    return new Promise((resolve, reject) => {
+      if (this.data[key]) return resolve(true);
+      else return resolve(false);
+    });
   }
 
   // internal
