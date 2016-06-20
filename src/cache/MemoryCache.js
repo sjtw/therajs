@@ -7,30 +7,25 @@ export default class MemoryCache {
   }
 
   put (key, value, timer)  {
-    this.clear(key);
-    this.clearTimer(key);
-    this.data[key] = value;
-    if (timer) {
-      this.clearAfter(key, timer);
-    }
-  }
-
-  clearTimer (key) {
-    if (this.timers[key]) clearTimeout(this.timers[key]);
-  }
-
-  clearTimers () {
-    for (var key in this.timers) {
+    return new Promise((resolve, reject) => {
+      this.delete(key);
       this.clearTimer(key);
-    }
+      this.data[key] = value;
+      if (timer) {
+        this.deleteAfter(key, timer);
+      }
+      resolve(this.data[key]);
+    });
   }
 
   get (key) {
-    if (this.data[key]) return this.data[key];
-    else return null;
+    return new Promise((resolve, reject) => {
+      if (this.data[key]) return resolve(this.data[key]);
+      else return resolve(null);
+    });
   }
 
-  clear (key) {
+  delete (key) {
     if (key) {
       if (this.data[key]) delete this.data[key];
       // clearTimer(key);
@@ -45,8 +40,21 @@ export default class MemoryCache {
     else return false;
   }
 
-  clearAfter (key, timer) {
-    if (key) this.timers[key] = setTimeout(() => this.clear(key), timer);
-    else setTimeout(() => this.clear(), timer);
+  // internal
+  clearTimer (key) {
+    if (this.timers[key]) clearTimeout(this.timers[key]);
+  }
+
+  // internal
+  clearTimers () {
+    for (var key in this.timers) {
+      this.clearTimer(key);
+    }
+  }
+
+  // internal
+  deleteAfter (key, timer) {
+    if (key) this.timers[key] = setTimeout(() => this.delete(key), timer);
+    else setTimeout(() => this.delete(), timer);
   }
 }

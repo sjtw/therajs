@@ -144,7 +144,7 @@ class XmlApiClient {
    */
   setCharacterID(id) {
     this.characterID = id;
-    // return this;
+    return this;
   }
 
   /**
@@ -172,7 +172,7 @@ class XmlApiClient {
     for (var key in config) {
       this[key] = config.key;
     }
-    return config;
+    return this;
   }
 
   getFullUrl(path) {

@@ -164,22 +164,8 @@ If `timeout` is provided, the document will be destroyed after this time.
 
 Thera uses the endpoint Paths as `key`. for example: 'char/Blueprints'
 
-
 ##### xmlClient.cache.get(key)
 Retrieves the document stored against `key` from the cache
-
-
-##### xmlClient.cache.clearTimer(key)
-Clears the timeout for `key`. i.e. it will persist indefinitely after doing so.
-
-
-##### xmlClient.cache.clearTimers()
-Clears the timeout for all `key`s.
-
-
-##### xmlClient.cache.clear(key)
-Clears the entire cache.
-
 
 ##### xmlClient.cache.exists(key)
 Returns true if a document exists for `key`.

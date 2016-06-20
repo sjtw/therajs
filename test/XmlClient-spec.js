@@ -2,6 +2,12 @@ import XmlApiClient from '../src/clients/XmlClient.js';
 import MemoryCache from '../src/cache/MemoryCache.js';
 import {expect} from 'chai';
 
+if (!process.env.EVEAPI_KEYID || !process.env.EVEAPI_VCODE) {
+  if (!process.env.EVEAPI_KEYID) console.log('EVEAPI_KEYID env variable is undefined, set this then re-run the test suite');
+  if (!process.env.EVEAPI_VCODE) console.log('EVEAPI_VCODE env variable is undefined, set this then re-run the test suite');
+  process.exit(1);
+}
+
 var legitKeyID = process.env.EVEAPI_KEYID;
 var legitVCode = process.env.EVEAPI_VCODE;
 
@@ -20,7 +26,7 @@ class TestCache extends MemoryCache {
   }
 }
 
-describe('XmlApiClient', function () {
+xdescribe('XmlApiClient', function () {
 
   it('should instantiate ok with no arguments passed to it', function() {
     var api = new XmlApiClient();
