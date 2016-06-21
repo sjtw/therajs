@@ -12,8 +12,6 @@ Thera is a Promise driven Eve Online API client for node.js written in ES6.
 
 Thera respects the Eve Online APIs Cache Timers and features automatic caching of retrieved resources. It includes and by default uses an in-memory cache, however this can easily be overridden with a custom cache provided it exposes the methods detailed in the .cache section under the API heading.
 
-I decided to write this to learn some of the new ES6 features, and because I wasn't so keen on some of the other EVE-O API clients available for node.js for numerous reasons.
-
 ### Installation
 ```bash
 npm install --save thera
