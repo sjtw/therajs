@@ -8,15 +8,15 @@
 #### An ES6 Promise driven EVE Online API client
 
 ### About
-Thera is a Promise driven Eve Online API client written in ES6 & transpiled to ES5 with Babel.js.  
+Thera is a Promise driven Eve Online API client for node.js written in ES6.  
 
 Thera respects the Eve Online APIs Cache Timers and features automatic caching of retrieved resources. It includes and by default uses an in-memory cache, however this can easily be overridden with a custom cache provided it exposes the methods detailed in the .cache section under the API heading.
 
-I decided to write this because ES6, Promises, <3 EVE and why not.
+I decided to write this to learn some of the new ES6 features, and because I wasn't so keen on some of the other EVE-O API clients available for node.js for numerous reasons.
 
 ### Installation
 ```bash
-npm install thera
+npm install --save thera
 ```
 
 ___
@@ -154,21 +154,44 @@ Sets multiple configuration options at once (see options section above).
 
 
 ##### xmlClient.cache
-The cache can be interacted with directly and exposes the methods below.  
+The cache is a key-value store which exposes the methods below.  
 If passing your own cache into a thera.XmlClient instance it must implement these methods to be compatible:
 
 
-##### xmlClient.cache.put(key, value, timeout)
-Adds a document `value` into the store at `key`.  
-If `timeout` is provided, the document will be destroyed after this time.  
+##### xmlClient.cache.put(key, document, timeout)  
+Returns a promise which resolves once `document` is added to the store indexed by `key`.  
+If `timeout` is provided, the document & key will be destroyed after this time.  
 
 Thera uses the endpoint Paths as `key`. for example: 'char/Blueprints'
 
+Example:  
+```javascript
+xmlClient.cache.put('mykey', {foo: 'bar'}, 1000).then(() => {
+  // do something after the document's been added
+});
+```
+
 ##### xmlClient.cache.get(key)
-Retrieves the document stored against `key` from the cache
+Returns a promise which resolves with the document stored against `key` from the cache
+
+Example:  
+```javascript
+xmlClient.cache.get('mykey').then(document => {
+  // do something with `document`
+});
+```
 
 ##### xmlClient.cache.exists(key)
 Returns true if a document exists for `key`.
+
+Example:  
+```javascript
+xmlClient.cache.exists('mykey').then(exists => {
+  if (exists) {
+    // do something when mykey exists
+  }
+});
+```
 
 ___
 
@@ -220,7 +243,24 @@ Rejections with an INVALID_RESPONSE type are due to the response being in an une
 
 
 ### Develop/Contribute
-TODO: how to contribute.
+If you feel you can contribute/help out in any way with the development of Thera, feel free to make a pull request to branch `develop`. Useful contributions at the moment might be: More (persistent) cache classes, journal walking, increasing test coverage.
+
+#### Tests
+Mocha/Chai are used for tests, they can be run using the gulp task:
+```bash
+gulp test
+```
+
+Coverage report can be generated using istanbul:
+```bash
+gulp coverage
+```
+
+#### Build
+To build the project using Babel:
+```bash
+gulp build
+```
 
 ___
 
