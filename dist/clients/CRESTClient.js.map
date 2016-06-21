@@ -1,0 +1,1 @@
+{"version":3,"sources":["clients/CRESTClient.js"],"names":[],"mappings":"qJAAM,W,CACJ,qBAAY,IAAZ,CAAkB,C;AAAA,kCAEjB,C","file":"clients/CRESTClient.js","sourcesContent":["class CRESTClient  {\n  constructor(args) {\n    // code\n  }\n}\n"],"sourceRoot":"/source/"}
