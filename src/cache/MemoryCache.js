@@ -47,7 +47,9 @@ export default class MemoryCache {
 
   // internal
   clearTimer (key) {
-    if (this.timers[key]) clearTimeout(this.timers[key]);
+    if (this.timers[key]) {
+      clearTimeout(this.timers[key]);
+    }
   }
 
   // internal
@@ -59,7 +61,6 @@ export default class MemoryCache {
 
   // internal
   deleteAfter (key, timer) {
-    if (key) this.timers[key] = setTimeout(() => this.delete(key), timer);
-    else setTimeout(() => this.delete(), timer);
+    this.timers[key] = setTimeout(() => this.delete(key), timer);
   }
 }

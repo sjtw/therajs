@@ -59,7 +59,6 @@ class ApiRequest {
         if (res.statusCode !== 200) {
           if (body) {
             xml2js.parseString(body, xml2jsOptions, (err, result) => {
-              console.log(result);
               if (err) reject(new HTTPError(res.statusCode, requestParams.url));
               else reject(new HTTPError(res.statusCode, requestParams.url, result.error._, result.error.code));
             });
@@ -99,42 +98,44 @@ class XmlApiClient {
       if (!requestOptions) requestOptions = {};
 
       // pick up cached response, if one exists in the cache
-      if (this.cache.exists(path) && !force) {
-        var body = this.cache.get(path);
-        body.isCached = true;
-        resolve(body);
-        return;
-      }
+      this.cache.exists(path).then(exists => {
 
-      // construct full URL to query
-      var url = this.getFullUrl(path);
-
-      // instantiate a new Api Request
-      new ApiRequest(url, this.keyID, this.vCode, this.characterID)
+        // resolve cached version
+        if (exists && !force) {
+          return this.cache.get(path).then(body => {
+            body.isCached = true;
+            return resolve(body);
+          });
+        }
+       
+        var url = this.getFullUrl(path);
+        return new ApiRequest(url, this.keyID, this.vCode, this.characterID)
         .get(extraParams, requestOptions)
-        .then((body) => {
+        .then( body => {
           // handle GET response
-
           if (!body.result) {
-            reject({errorType: 'INVALID_RESPONSE', error: 'The Response from ' + url + ' was invalid.'});
+            return reject({errorType: 'INVALID_RESPONSE', error: 'The Response from ' + url + ' was invalid.'});
           }
 
           var cacheStart = _.get(body, 'currentTime', false);
           var cacheEnd = _.get(body, 'cachedUntil', false);
 
+          body.isCached = false;
           if (cacheStart && cacheEnd) {
             // cache this response until the received cachedUntil time
             // (timezone differences are taken into account as we're using the offset from currentTime)
             timeout = getMsDiff(cacheStart, cacheEnd);
-            this.cache.put(path, body, timeout);
+            return this.cache.put(path, body, timeout).then(() => {
+              return resolve(body);
+            });
+          } else {
+            return resolve(body);
           }
 
-          body.isCached = false;
-          resolve(body);
-        })
-        .catch((err) => {
-          reject(err);
         });
+      }).catch((err) => {
+        reject(err);
+      });
     });
   }
 

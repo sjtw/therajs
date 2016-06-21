@@ -26,7 +26,7 @@ class TestCache extends MemoryCache {
   }
 }
 
-xdescribe('XmlApiClient', function () {
+describe('XmlApiClient', function () {
 
   it('should instantiate ok with no arguments passed to it', function() {
     var api = new XmlApiClient();
@@ -51,7 +51,7 @@ xdescribe('XmlApiClient', function () {
   describe('Once instantiated, ', function () {
     var api;
 
-    before(function() {
+    beforeEach(function() {
       api = new XmlApiClient({
         keyID: legitKeyID,
         vCode: legitVCode,
@@ -66,36 +66,43 @@ xdescribe('XmlApiClient', function () {
           expect(response.result.rowset).to.be.defined;
           expect(response.result.cachedUntil).to.be.defined;
           expect(response.isCached).to.equal(false);
-        })
-        .catch(handlePromiseError);
+        });
     });
 
     it('should retrieve a previously cached version of the response if one exists', function() {
+
       return api.get('account/Characters')
-        .then(function(response) {
+        .then(response => {
+          expect(response.currentTime).to.be.defined;
+          expect(response.result).to.be.defined;
+          expect(response.result.rowset).to.be.defined;
+          expect(response.result.cachedUntil).to.be.defined;
+          expect(response.isCached).to.equal(false);
+          return api.get('account/Characters');
+        }).then(function(response) {
           expect(response.currentTime).to.be.defined;
           expect(response.result).to.be.defined;
           expect(response.result.rowset).to.be.defined;
           expect(response.result.cachedUntil).to.be.defined;
           expect(response.isCached).to.equal(true);
-        })
-        .catch(handlePromiseError);
+        });
     });
 
     it('should force a new fetch if the forceGet argument is true', function() {
-      return api.get('account/Characters')
-        .then(function(response) {
+      return api.get('account/Characters').then(() => {
+          return api.get('account/Characters');
+        }).then(function(response) {
           expect(response.currentTime).to.be.defined;
           expect(response.result).to.be.defined;
           expect(response.result.rowset).to.be.defined;
           expect(response.result.cachedUntil).to.be.defined;
           expect(response.isCached).to.equal(true);
-        })
-        .catch(handlePromiseError);
+        });
     });
 
-    after(function() {
+    afterEach(function() {
       api.cache.clearTimers();
     });
+
   });
 });
