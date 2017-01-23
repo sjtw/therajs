@@ -124,7 +124,7 @@ class XmlApiClient {
           if (cacheStart && cacheEnd) {
             // cache this response until the received cachedUntil time
             // (timezone differences are taken into account as we're using the offset from currentTime)
-            timeout = getMsDiff(cacheStart, cacheEnd);
+            let timeout = getMsDiff(cacheStart, cacheEnd);
             return this.cache.put(path, body, timeout).then(() => {
               return resolve(body);
             });
