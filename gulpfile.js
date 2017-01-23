@@ -3,7 +3,7 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var excludeGitignore = require('gulp-exclude-gitignore');
 var istanbul = require('gulp-istanbul');
-var nsp = require('gulp-nsp');
+// var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
 var babel = require('gulp-babel');
 var del = require('del');
@@ -21,9 +21,9 @@ require('babel-register');
 
 var active = false;
 
-gulp.task('nsp', function (cb) {
-  nsp({package: path.resolve('package.json')}, cb);
-});
+// gulp.task('nsp', function (cb) {
+//   nsp({package: path.resolve('package.json')}, cb);
+// });
 
 gulp.task('pre-coverage', function () {
   return gulp.src(['src/**/*.js'])
@@ -127,7 +127,7 @@ gulp.task('watch__test', function() {
 });
 
 gulp.task('build', function () {
-  runSequence('set-active', 'clean', 'nsp',  'babel', 'set-inactive');
+  runSequence('set-active', 'clean', 'babel', 'set-inactive');
 });
 
 
