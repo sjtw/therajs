@@ -17,10 +17,7 @@ var coveralls = require('gulp-coveralls');
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
-require('babel-register')({
-  extensions:['.js'],
-  ignore: false,
-});
+require('babel-register');
 
 var active = false;
 
