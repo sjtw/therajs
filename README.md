@@ -3,6 +3,7 @@
 ![Dependencies](https://david-dm.org/sjt88/therajs.svg)
 [![Coverage Status](https://coveralls.io/repos/github/sjt88/therajs/badge.svg?branch=develop)](https://coveralls.io/github/sjt88/therajs?branch=develop)
 
+## DEPRECATED - The EVE Online XML API which this library consumed was deprecated a while ago in favour of [ESI](https://esi.evetech.net/ui/).
 
 # Thera.js
 #### An ES6 Promise driven EVE Online API client
